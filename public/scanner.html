@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Escáner</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        input { font-size: 24px; padding: 10px; width: 300px; text-align: center; }
+        .mensaje { font-size: 22px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Escáner de Asistencia</h1>
+    <input type="text" id="codigo" autofocus placeholder="Escanee o escriba su código">
+    <div id="resultado" class="mensaje"></div>
+
+    <script>
+        const input = document.getElementById("codigo");
+        const resultado = document.getElementById("resultado");
+        let timer = null;
+
+        // Función para enviar código automáticamente
+        function enviarCodigo(codigo) {
+            fetch("http://127.0.0.1:8000/api/scan", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify({ codigo_barras: codigo })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.status === "success") {
+                    resultado.innerHTML = `✅ ${data.usuario} - ${data.tipo.toUpperCase()}<br><small>${data.hora}</small>`;
+                    resultado.style.color = data.tipo === "entrada" ? "green" : "blue";
+                } else {
+                    resultado.innerHTML = `❌ ${data.message}`;
+                    resultado.style.color = "red";
+                }
+                input.value = "";
+                input.focus();
+            })
+            .catch(err => {
+                resultado.innerHTML = `⚠️ Error en conexión`;
+                resultado.style.color = "orange";
+            });
+        }
+
+        // Detectar cuando el lector termina de escribir
+        input.addEventListener("input", function() {
+            clearTimeout(timer);
+            if (input.value.length > 3) { // para evitar enviar en blanco
+                timer = setTimeout(() => {
+                    enviarCodigo(input.value.trim());
+                }, 300); // espera 300ms para detectar fin de escritura
+            }
+        });
+
+        // También permitir enviar con Enter si hay teclado
+        input.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                enviarCodigo(input.value.trim());
+            }
+        });
+    </script>
+</body>
+</html>

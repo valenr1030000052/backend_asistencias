@@ -3,62 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Usuario;
 use App\Models\Registro;
 
 class AdminController extends Controller
 {
-      // panel admin (GET /admin)
     public function panel()
     {
-        if (!session('admin_id')) return redirect()->route('admin.login.form');
-        // no cargamos registros aquí (los pedirá el JS por AJAX)
-        $usuarios = Usuario::all();
-        return view('admin.panel', compact('usuarios'));
+        return view('admin');
     }
 
-    // Crear usuario desde el panel
-    public function crearUsuario(Request $request)
-    {
-        $request->validate([
-            'nombre'=>'required',
-            'documento'=>'nullable',
-            'codigo_barras'=>'required|unique:usuarios,codigo_barras'
-        ]);
-
-        Usuario::create([
-            'nombre' => $request->nombre,
-            'documento' => $request->documento,
-            'codigo_barras' => $request->codigo_barras
-        ]);
-
-        return redirect()->back()->with('success','Usuario creado');
-    }
-
-    // Endpoint AJAX para listar registros con filtros
     public function listarRegistros(Request $request)
     {
-        if (!session('admin_id')) return response()->json(['message'=>'No autorizado'],401);
+        $query = Registro::with(['usuario', 'sede'])->orderBy('hora_entrada', 'desc');
 
-        $q = Registro::with('usuario');
-
-        if ($request->filled('buscar')) {
-            $b = $request->buscar;
-            $q->whereHas('usuario', function($u) use ($b){
-                $u->where('nombre','like',"%$b%")
-                  ->orWhere('documento','like',"%$b%")
-                  ->orWhere('codigo_barras','like',"%$b%");
-            });
+        if ($request->filled('ciudad')) {
+            $query->whereHas('sede', fn($q) => $q->where('ciudad', $request->ciudad));
         }
 
-        if ($request->filled('fecha_inicio')) {
-            $q->whereDate('hora_entrada','>=',$request->fecha_inicio);
-        }
-        if ($request->filled('fecha_fin')) {
-            $q->whereDate('hora_entrada','<=',$request->fecha_fin);
+        if ($request->filled('fecha')) {
+            $query->whereDate('hora_entrada', $request->fecha);
         }
 
-        $results = $q->orderBy('hora_entrada','desc')->paginate(200);
-        return response()->json($results);
+        return $query->get()->map(function ($registro) {
+            return [
+                'id'            => $registro->id,
+                'codigo'        => $registro->usuario->codigo_barras ?? '-',
+                'usuario_nombre'=> $registro->usuario->nombre ?? 'Desconocido',
+                'ciudad'        => $registro->sede?->ciudad,
+                'sede_nombre'   => $registro->sede?->nombre,
+                'hora_entrada'  => optional($registro->hora_entrada)->format('Y-m-d H:i:s'),
+                'hora_salida'   => optional($registro->hora_salida)->format('Y-m-d H:i:s'),
+            ];
+        });
     }
 }

@@ -1,0 +1,510 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f8f9fa;
+  color: #222;
+  text-align: center;
+}
+
+/* Texto de bienvenida */
+.welcome-text {
+  margin: 50px auto;
+  max-width: 800px;
+  padding: 30px 40px;
+  background-color: #f9f9f9;
+  border-left: 8px solid #1e3c6e;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+.welcome-text::before {
+  content: "📢 Bienvenida";
+  position: absolute;
+  top: -20px;
+  left: 30px;
+  background-color: #1e3c6e;
+  color: #fff;
+  padding: 5px 15px;
+  font-size: 14px;
+  border-radius: 5px 5px 0 0;
+}
+
+.welcome-text strong {
+  color: #1e3c6e;
+}
+
+/* Footer */
+footer {
+  margin: 30px 0;
+}
+
+.admin-link {
+  font-size: 14px;
+  color: #555;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/*sedes*/
+.sedes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.sedes-titulo {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #043560;
+}
+
+.sedes-subtitulo {
+  font-size: 1rem;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.sede-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.sede-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.sede-card:hover {
+  transform: scale(1.03);
+}
+
+.sede-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.sede-card h3 {
+  margin: 10px 0;
+  color: #043560;
+}
+
+.sede-card select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.sede-card button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #043560;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* --- LOGIN PANEL --- */
+.login-panel {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 40px 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.login-panel h2 {
+  margin-bottom: 25px;
+  color: #1e3c6e;
+  font-size: 1.8rem;
+}
+
+.login-panel input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.login-panel input:focus {
+  border-color: #1e3c6e;
+  outline: none;
+}
+
+.login-panel button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: #1e3c6e;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.login-panel button:hover {
+  background: #4193A6;
+}
+
+.login-error {
+  margin-top: 10px;
+  color: red;
+  font-style: italic;
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- ADMIN PANEL --- */
+.admin-panel {
+  max-width: 1200px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+  display: none;
+}
+
+.header-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.logo-box {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1e3c6e;
+}
+
+.admin-filters {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.admin-filters select, .admin-filters input {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.admin-filters select:focus, .admin-filters input:focus {
+  border-color: #1e3c6e;
+  outline: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+table th, table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+table th {
+  background:#1e3c6e;
+  color: #fff;
+  border-radius: 4px;
+}
+
+table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+table tr:hover {
+  background: #e3f2fd;
+}
+
+.export-btn {
+  padding: 10px 18px;
+  background: #1e3c6e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.export-btn:hover {
+  background: #4193A6;
+}
+
+.logout-btn {
+  padding: 10px 18px;
+  background: #1e3c6e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.logout-btn:hover {
+  background: #4193A6;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-style: italic;
+  display: none;
+}
+
+/* --- escaner --- */
+.scanner-container {
+  max-width: 900px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 3px 12px rgba(0,0,0,0.1);
+}
+
+.titulo {
+  font-size: 22px;
+  margin-bottom: 5px;
+  color: #1a1a1a;
+}
+
+.fecha {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ===== INPUTS Y BOTONES (ENTRADA/SALIDA) ===== */
+.manual-input {
+  margin: 16px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.manual-input input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 44px;
+  padding: 0 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.manual-input button {
+  flex: 0 0 auto;
+  height: 44px;
+  padding: 0 18px;
+  font-size: 16px;
+  border: none;
+  background: #1e3c6e;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.manual-input button:hover {
+  background: #4193A6;
+}
+
+.manual-input input::placeholder {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsivo: en pantallas pequeñas, uno debajo del otro */
+@media (max-width: 520px) {
+  .manual-input {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .manual-input button {
+    width: 100%;
+  }
+}
+
+/* ===== LOADER ===== */
+.loader {
+  display: none;
+  margin: 15px auto;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1e3c6e;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== MENSAJE DE ÉXITO ===== */
+.success {
+  display: none;
+  color: green;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* ===== TABLA ===== */
+#registros-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  display: none;
+}
+
+#registros-table th,
+#registros-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+#registros-table th {
+  background: #1e3c6e;
+  color: #fff;
+}
+
+/* ===== BOTÓN SALIDA (TABLA) ===== */
+.btn-salida {
+  background: #1e3c6e;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-salida:hover {
+  background: #4193A6;
+}
+
+/* ===== BOTÓN SALIR (ABAJO) ===== */
+.salir-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-salir {
+  padding: 10px 20px;
+  background: #1e3c6e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-salir:hover {
+  background: #4193A6;
+}
+
+/* ====== RESPONSIVE EXTRA ====== */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .header-panel {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .admin-filters {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .admin-filters select,
+  .admin-filters input {
+    width: 100%;
+  }
+}
+
+/* Móviles */
+@media (max-width: 600px) {
+  .sedes-titulo {
+    font-size: 1.5rem;
+  }
+
+  .welcome-text {
+    padding: 20px;
+    font-size: 16px;
+  }
+
+  .sede-card img {
+    height: 140px;
+  }
+
+  .login-panel {
+    margin: 40px 20px;
+    padding: 25px 20px;
+  }
+
+  .admin-panel {
+    padding: 15px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

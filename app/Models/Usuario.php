@@ -9,7 +9,7 @@ class Usuario extends Model
    
     protected $table = 'usuarios';
 
-    protected $fillable = ['nombre', 'documento', 'codigo', 'sede_id'];
+    protected $fillable = ['nombre', 'documento', 'codigo_barras', 'sede_id'];
 
     public function sede()
     {
