@@ -32,4 +32,6 @@ Route::prefix('admin')->group(function () {
 Route::get('/usuarios', [AdminApiController::class, 'usuarios']);
 Route::post('/usuarios', [AdminApiController::class, 'crearUsuario']);
 Route::get('/registros', [AdminApiController::class, 'registros']);
+Route::get('/ciudades', [AdminApiController::class, 'ciudades']); 
+Route::get('/sedes', [AdminApiController::class, 'sedes']);
 });

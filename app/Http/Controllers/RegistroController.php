@@ -6,32 +6,55 @@ use Illuminate\Http\Request;
 use App\Models\Registro;
 use App\Models\Usuario;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class RegistroController extends Controller
 {
     // ✅ Obtener últimos registros (para la tabla)
     public function index()
     {
-        $registros = Registro::with(['usuario', 'sede'])
-            ->orderBy('hora_entrada', 'desc')
-            ->take(20)
-            ->get()
-            ->map(function ($registro) {
-                return [
-                    'id'            => $registro->id,
-                    'usuario'       => [
-                        'codigo_barras' => $registro->usuario->codigo_barras ?? '-',
-                        'nombre'        => $registro->usuario->nombre ?? 'Desconocido',
-                    ],
-                    'ciudad'        => $registro->sede?->ciudad ?? '-',
-                    'sede_nombre'   => $registro->sede?->nombre ?? '-',
-                    'hora_entrada'  => $registro->hora_entrada ? Carbon::parse($registro->hora_entrada)->format('Y-m-d H:i:s') : null,
-                    'hora_salida'   => $registro->hora_salida ? Carbon::parse($registro->hora_salida)->format('Y-m-d H:i:s') : null,
-                ];
-            });
+          $hoy = Carbon::today();
 
-        return response()->json($registros);
+    // Buscar registros del día actual
+    $registros = Registro::with(['usuario', 'sede.ciudad'])
+        ->whereDate('created_at', $hoy)   // ← CAMBIADO
+        ->orderBy('created_at', 'desc')  // ← CAMBIADO
+        ->get();
+
+    // Si no hay registros del día → mostrar últimos 20
+    if ($registros->count() == 0) {
+        $registros = Registro::with(['usuario', 'sede.ciudad'])
+            ->orderBy('created_at', 'desc')  // ← CAMBIADO
+            ->take(20)
+            ->get();
     }
+
+    // Formato JSON
+    $registros = $registros->map(function ($r) {
+
+        return [
+            'id' => $r->id,
+
+            'usuario' => [
+                'codigo_barras' => $r->usuario->codigo_barras ?? '-',
+                'nombre'        => $r->usuario->nombre ?? 'Desconocido'
+            ],
+
+            'ciudad'      => $r->sede?->ciudad?->nombre ?? '-',
+            'sede_nombre' => $r->sede?->nombre ?? '-',
+
+            'hora_entrada' => $r->hora_entrada
+                ? Carbon::parse($r->hora_entrada)->format('Y-m-d H:i:s')
+                : null,
+
+            'hora_salida'  => $r->hora_salida
+                ? Carbon::parse($r->hora_salida)->format('Y-m-d H:i:s')
+                : null
+        ];
+    });
+
+    return response()->json($registros);
+}
 
     // ✅ Registrar entrada o salida
     public function store(Request $request)

@@ -48,9 +48,9 @@
                 <h3>Bogotá</h3>
                 <select id="sede-bogota">
                     <option value="">Selecciona una sede...</option>
-                    <option value="principal">Sede Principal</option>
-                    <option value="central-point">Central Point</option>
-                    <option value="la84">LA 84</option>
+                    <option value="Sede Principal">Sede Principal</option>
+                    <option value="Central-point">Central Point</option>
+                    <option value="La 84">LA 84</option>
                 </select>
                 <button onclick="irASede('bogota')">Ir a registro</button>
             </div>
@@ -60,23 +60,25 @@
                 <img src="{{ asset('imagenes/barranquilla.jpg') }}" alt="Barranquilla">
                 <h3>Barranquilla</h3>
                 <select id="sede-barranquilla">
-                    <option value="">Selecciona una sede...</option>
-                    <option value="barranquilla">Sede Principal</option>
+                   <option value="">Selecciona una sede...</option>
+                    <option value="Sede Principal Barrio Alto Prado">Sede Principal Barrio Alto Prado</option>
                 </select>
                 <button onclick="irASede('barranquilla')">Ir a registro</button>
             </div>
+
 
             <!-- CALI -->
             <div class="sede-card">
                 <img src="{{ asset('imagenes/cali.jpg') }}" alt="Cali">
                 <h3>Cali</h3>
                 <select id="sede-cali">
-                    <option value="">Selecciona una sede...</option>
-                    <option value="cali-norte">Norte</option>
-                    <option value="cali-sur">Sur</option>
+                     <option value="">Selecciona una sede...</option>
+                    <option value="IPS Diagnóstico del Valle">IPS Diagnóstico del Valle</option>
+        
                 </select>
                 <button onclick="irASede('cali')">Ir a registro</button>
             </div>
+
 
             <!-- Monteria-->
             <div class="sede-card">
@@ -84,7 +86,7 @@
                 <h3>Monteria</h3>
                 <select id="sede-monteria">
                     <option value="">Selecciona una sede...</option>
-                    <option value="monteria">Sede Principal</option>
+                    <option value="Sede Principal">Sede Principal</option>
                 </select>
                 <button onclick="irASede('monteria')">Ir a registro</button>
             </div>
@@ -94,8 +96,8 @@
                 <img src="{{ asset('imagenes/yopal.jpg') }}" alt="yopal">
                 <h3>Yopal</h3>
                 <select id="sede-yopal">
-                    <option value="">Selecciona una sede...</option>
-                    <option value="yopal">Sede Principal</option>
+                   <option value="">Selecciona una sede...</option>
+                    <option value="Centro Comercial Gran Plaza Alcaravan">Centro Comercial Gran Plaza Alcaravan</option>
                 </select>
                 <button onclick="irASede('yopal')">Ir a registro</button>
             </div>
@@ -105,8 +107,8 @@
                 <img src="{{ asset('imagenes/cartagena.jpg') }}" alt="Cartagena">
                 <h3>Cartagena</h3>
                 <select id="sede-cartagena">
-                    <option value="">Selecciona una sede...</option>
-                    <option value="cartagena">Sede Principal</option>
+                     <option value="">Selecciona una sede...</option>
+                    <option value="Sede Principal">Sede Principal</option>
                 </select>
                 <button onclick="irASede('cartagena')">Ir a registro</button>
             </div>
@@ -116,8 +118,8 @@
                 <img src="{{ asset('imagenes/puertotejada.jpg') }}" alt="puerto tejada">
                 <h3>Puerto Tejada</h3>
                 <select id="sede-puertotejada">
-                    <option value="">Selecciona una sede...</option>
-                    <option value="puerto tejada">Sede Principal</option>
+                       <option value="">Selecciona una sede...</option>
+                    <option value="Puerto tejada">Puerto Tejada</option>
                 </select>
                 <button onclick="irASede('puertotejada')">Ir a registro</button>
             </div>
@@ -127,8 +129,8 @@
             <img src="{{ asset('imagenes/santander.jpg') }}" alt="santander">
               <h3>Santander de Quilichao</h3>
              <select id="sede-santander"> <!-- ✅ corregido -->
-           <option value="">Selecciona una sede...</option>
-            <option value="santander">Sede Principal</option>
+            <option value="">Selecciona una sede...</option>
+            <option value="Barrio Olaya Herrera"> Barrio Olaya Herrera</option>
          </select>
           <button onclick="irASede('santander')">Ir a registro</button>
             </div>
@@ -139,7 +141,9 @@
                 <h3>Popayan</h3>
                 <select id="sede-popayan">
                     <option value="">Selecciona una sede...</option>
-                    <option value="popayan">Sede Principal</option>
+                    <option value="Sede Principal  Barrio Bolivar">Sede Principal  Barrio Bolivar </option>
+                    <option value="Sede Quinta ">Sede Quinta </option>
+                    <option value="Centro Comercial Terraplaza">Centro Comercial Terraplaza </option>
                 </select>
                 <button onclick="irASede('popayan')">Ir a registro</button>
             </div>

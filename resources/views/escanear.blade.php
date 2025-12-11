@@ -11,8 +11,6 @@
 
     <!-- Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    
 </head>
 <body>
 
@@ -23,6 +21,7 @@
             <img src="{{ asset('imagenes/logo.png') }}" alt="Laboratorio Vejarano">
         </div>
     </div>
+
     <a href="/admin" class="admin-link">Operador</a>
 </header>
 
@@ -58,7 +57,7 @@
     </div>
 </div>
 
-<!-- ✅ Sonidos -->
+<!-- Sonidos -->
 <audio id="sound-entrada" src="{{ asset('sonidos/entrada.mp3') }}" preload="auto"></audio>
 <audio id="sound-salida" src="{{ asset('sonidos/salida.mp3') }}" preload="auto"></audio>
 <audio id="sound-error" src="{{ asset('sonidos/error.mp3') }}" preload="auto"></audio>
@@ -70,44 +69,59 @@ const errorBox = document.getElementById("error");
 const input = document.getElementById("barcode-input");
 const table = document.getElementById("registros-table");
 const tableBody = table.querySelector("tbody");
+
 const soundEntrada = document.getElementById("sound-entrada");
 const soundSalida = document.getElementById("sound-salida");
 const soundError = document.getElementById("sound-error");
 
 let contador = 0;
 let typingTimer;
-const typingDelay = 120; // ms (detecta fin de lectura de escáner)
+const typingDelay = 120;
 
-// ✅ Actualizar fecha y hora en tiempo real
+// Fecha y hora en tiempo real
 function actualizarFechaHora() {
     const ahora = new Date();
-    const opciones = { weekday: "long", year: "numeric", month: "long", day: "numeric",
-                       hour: "2-digit", minute: "2-digit", second: "2-digit" };
+    const opciones = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    };
     document.getElementById("fecha-hora").textContent =
         "📅 " + ahora.toLocaleDateString("es-CO", opciones);
 }
+
 setInterval(actualizarFechaHora, 1000);
 actualizarFechaHora();
 
-// ✅ Cargar registros
+// Cargar registros
 async function cargarRegistros() {
     try {
         const res = await axios.get("/api/registros");
+
         tableBody.innerHTML = "";
         contador = 0;
+
         res.data.forEach(r => agregarFila(r));
         table.style.display = res.data.length > 0 ? "table" : "none";
+
     } catch (err) {
         console.error(err);
     }
 }
+
 setInterval(cargarRegistros, 5000);
 cargarRegistros();
 
-// ✅ Agregar fila
+// Agregar fila
 function agregarFila(registro) {
     contador++;
+
     const row = document.createElement("tr");
+
     row.innerHTML = `
         <td>${contador}</td>
         <td>${registro.usuario?.codigo_barras ?? "-"}</td>
@@ -115,10 +129,11 @@ function agregarFila(registro) {
         <td>${registro.hora_entrada ?? "-"}</td>
         <td>${registro.hora_salida ?? "-"}</td>
     `;
+
     tableBody.prepend(row);
 }
 
-// ✅ Registrar entrada/salida
+// Registrar entrada/salida
 async function registrar() {
     const codigo = input.value.trim();
     if (!codigo) return;
@@ -129,15 +144,14 @@ async function registrar() {
 
     try {
         const res = await axios.post("/api/scan", {
-            codigo_barras: codigo,
-            sede_id: null
+            codigo_barras: codigo
         });
 
         loader.style.display = "none";
+
         success.textContent = `✅ ${res.data.tipo.toUpperCase()} registrada para ${res.data.usuario} (${res.data.hora})`;
         success.style.display = "block";
 
-        // ✅ Agregar fila de inmediato
         agregarFila({
             usuario: { codigo_barras: codigo, nombre: res.data.usuario },
             hora_entrada: res.data.tipo === "entrada" ? res.data.hora : "-",
@@ -147,7 +161,7 @@ async function registrar() {
         input.value = "";
 
         if (res.data.tipo === "entrada") soundEntrada.play();
-        else if (res.data.tipo === "salida") soundSalida.play();
+        else soundSalida.play();
 
     } catch (err) {
         loader.style.display = "none";
@@ -157,15 +171,11 @@ async function registrar() {
     }
 }
 
-// ✅ Detectar fin de escritura automática (lector de códigos)
 input.addEventListener("input", () => {
     clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        registrar();
-    }, typingDelay);
+    typingTimer = setTimeout(() => registrar(), typingDelay);
 });
 
-// ✅ Mantener foco siempre en el input
 window.addEventListener("load", () => input.focus());
 document.addEventListener("click", () => input.focus());
 </script>
